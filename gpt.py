@@ -95,7 +95,7 @@ class BigramLanguageModel(nn.Module):
     def __init__(self):
         super().__init__()
         self.token_embedding_table = nn.Embedding(vocab_size, n_embd)
-        self.position_embedding_table = nn.Emnedding(block_size.n_embd)    #To encode token position
+        self.position_embedding_table = nn.Emnedding(block_size.n_embd)    #To encode token 
         self.lm_head = nn.Linear(n_embd, vocab_size)
 
     def forward(self, idx, targets=None):
@@ -117,7 +117,6 @@ class BigramLanguageModel(nn.Module):
         return logits, loss
 
     def generate(self, idx, max_new_tokens):
-        # idx is (B, T) array of indices in the current context
         for _ in range(max_new_tokens):
             # get the predictions
             logits, loss = self(idx)
@@ -174,7 +173,6 @@ q = query(x) #What i am looking for
 wei = q@k.transpose(-2,-1)
 
 tril = torch.tril(torch.ones(T,T))
-#wei = torch.zeros((T,T))
 wei = wei.masked_fill(tril==0,float('-inf'))  # To make future token unavailable
 wei = F.softmax(wei, dim=-1)
 tril = torch.tril(torch.ones(T,T))
